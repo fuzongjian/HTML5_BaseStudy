@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>localStorage介绍</title>
+	<script >
+		window.onload = function () {
+			var account = document.getElementByName("account")[0];
+			var password = document.getElementByName("password")[0];
+			var save = document.getElementByName("save")[0];
+			if (localStorage.getItem("account") && localStorage.getItem("password")) {
+				account.value = localStorage.getItem("account");
+				password.value = localStorage.getItem("password");
+				save.checked = true;
+			}
+			save.onclick = function () {
+				alert(1);
+				if (save.checked) {
+					localStorage.setItem("account",account.value);
+					localStorage.setItem("password",password.value);
+				}else{
+					localStorage.removeItem("account");
+					localStorage.removeItem("password");
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	账号：<input type="text" name="account"><br>
+	密码： <input type="password" name="password"><br>
+	是否保存：<input type="checkbox" name="save">
+</body>
+</html>

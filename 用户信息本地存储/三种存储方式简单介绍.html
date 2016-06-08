@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title>三种存储方式介绍</title>
+</head>
+<body>
+	<script type="text/javascript">
+	// 第一种
+		document.cookie = "name = zhangsan";
+		alert(document.cookie);
+	//第二种
+		localStorage.setItem("name","fuzongjian");
+		alert(localStorage.getItem("name"));
+	// 第三种
+		sessionStorage.setItem("name","lisi");
+		alert(sessionStorage.getItem("name"));
+</body>
+</html>
