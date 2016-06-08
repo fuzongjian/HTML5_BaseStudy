@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>表格</title>
+</head>
+<body>
+<p>每个表格有table标签开始</p>
+<p>每个表格行由 tr 开始</p>
+<p>每个表格数据由 td 开始</p>
+
+<h4> 一列 </h4>
+<table border="1">
+	<tr>
+		<td>100</td>
+	</tr>
+</table>
+
+<h4> 一行三列 </h4>
+<table border="1">
+	<tr>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+
+<!-- cellpadding 内容与边框的距离  cellspacing 边框与边框的距离  bgcolor背景颜色 background背景图片-->
+<h4> 三行两列</h4>
+<table border="1" cellpadding="20"  cellspacing="10" bgcolor="green">	
+<caption>我是标题</caption>
+	<tr>
+		<td bgcolor="red">100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+<h4> 带有空格的表格 </h4>
+<table border="1">	
+	<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>&nbsp;</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+<h4>带比较粗的边框</h4>
+	<table border="10">
+		<tr>
+			<td>first</td>
+			<td>row</td>
+		</tr>
+		<tr>
+			<td>second</td>
+			<td>row</td>
+		</tr>
+	</table>
+
+<h4> 没有边框的表格 </h4>
+<table border="0">	
+	<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+<h4> 带有水平表头的表格 </h4>
+<table border="1">	
+	<tr>
+		<th>表头一</th>
+		<th>表头二</th>
+	</tr>
+	<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+	<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+	<tr>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+<h4> 带有垂直表头的表格 </h4>
+<table border="1">	
+	<tr>
+		<th>表头一</th>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+	<tr>
+		<th>表头二</th>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+	<tr>
+		<th>表头三</th>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+<h4> 横跨两列的单元格</h4>
+<table border="1">	
+<caption>我是标题</caption>
+	<tr>
+		<th colspan="2">横跨</th>
+		<th colspan="2">横跨</th>
+	</tr>
+	<tr>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+<h4> 横跨两行的表格</h4>
+<table border="1">	
+<caption>我是标题</caption>
+	<tr>
+		<th rowspan="2">横跨</th>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+		<tr>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+	<tr>
+		<th>不横跨</th>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+		<td>100</td>
+	</tr>
+</table>
+
+
+<h4>内部含有标签的表格</h4>
+<table border="1">
+	<tr>
+		<td>
+			<p>这是一个段落</p>
+			<p>这是另一个段落</p>
+		</td>
+		<td>
+			这个单元含有一个表格
+			<table border="1">
+				<tr>
+					<td>fu</td>
+					<td>zong</td>
+					<td>jian</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			这个单元含有一个列表
+			<ul>
+				<li>苹果</li>
+				<li>香蕉</li>
+				<li>菠萝</li>
+			</ul>
+		</td>
+		<td>付宗建</td>
+	</tr>
+</table>
+
+<h4>自定义表格</h4>
+<table border="1" width="300">
+	<tr>
+		<th align="left">消费项目</th>
+		<th align="right">一月份</th>
+		<th align="right">二月份</th>
+	</tr>
+	<tr>
+		<td align="left">衣服</td>
+		<td align="right">$123.0</td>
+		<td align="right">$110.0</td>
+	</tr>
+	<tr>
+		<td align="left">化妆品</td>
+		<td align="right">$157.1</td>
+		<td align="right">$89.0</td>
+	</tr>
+</table>
+</body>
+</html>
