@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单的研究学习</title>
+</head>
+<body>
+	<h4>文本域</h4>
+	<form >
+		名：<input type="text" name="firstname"><br>
+		姓：<input type="text" name="lastname">
+	</form>
+	<h4>密码域</h4>
+	<form >
+		用户：<input type="text" name="user"><br>
+		密码：<input type="password" name="password">
+	</form>
+	<h4>复选框</h4>
+	<form >
+		我喜欢自行车：<input type="checkbox" name="Bike"><br>
+		我喜欢汽车：<input type="checkbox" name="Car">
+	</form>
+
+	<h4>单选按钮</h4>
+	<form >
+		Boy：<input type="radio" checked="checked" name="Sex" value="male"><br>
+		Girl：<input type="radio" name="Sex" value="female">
+	</form>
+
+	<h4>简单下拉</h4>
+	<form >
+		<select name="sports">
+			<option value="羽毛球">羽毛球</option>
+			<option value="篮球">篮球</option>
+			<!-- 可以设置预选值 -->
+			<option value="足球" selected="selected">足球</option>
+			<option value="排球">排球</option>
+		</select>
+	</form><br>
+	
+	<h4>文本域（可输入）</h4>
+	<textarea cols="30" rows="10">good good study</textarea><br>
+	<h4>创建按钮</h4>
+	<form>
+		<input type="button" value="click here">
+	</form><br>
+
+	<h4表单周围有边框</h4>
+	<form >
+		<fieldset style="width: 1000px">
+			<legend>健康信息</legend>
+			身高：<input type="text">
+			体重：<input type="text">
+		</fieldset>
+	</form>
+
+	<br><h4>带有输入框和确认按钮的表单</h4>
+	<!-- action 请单击确认按钮，输入会发送到服务器上名为 "form_action.asp" 的页面。 -->
+	<form action="/example/html/form_action.asp" method="get">
+		<p>First name: <input type="text" name="firstname"></p>
+		<p>Last name: <input type="text" name="lastname"></p>
+		<input type="submit" value="submit">
+	</form>
+</body>
+</html>
