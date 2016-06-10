@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- 当前界面没有关闭的数据存储 -->
+	<title>sessionStorage方式存储</title>
+	<script >
+		window.onload = function () {
+			window.onbeforeunload = function () {
+				alert("刷新");
+			}
+
+			var title = document.getElementsByName("title");
+			var con = document.getElementByName("con");
+			var login = document.getElementById("login");
+			if (sessionStorage.title||sessionStorage.con) {
+				title.value = sessionStorage.title;
+				con.value = sessionStorage.con;
+			}
+			login.onclick = function () {
+				sessionStorage.title = title.value;
+				sessionStorage.con = con.value;
+			}
+		}
+	</script>
+</head>
+<body>
+	标题：<input type="text" name="title"><br>
+	内容：<textarea rows="5" cols="15" name="con"></textarea><br>
+	<a href="1.php" id="login">登录</a>
+</body>
+</html>

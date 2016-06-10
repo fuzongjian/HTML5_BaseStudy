@@ -2,23 +2,29 @@
 <html>
 <head>
 <meta charset="utf-8">
+<!-- 这种存储方式类似于QQ登录记住密码功能 -->
 	<title>localStorage介绍</title>
 	<script >
 		window.onload = function () {
-			var account = document.getElementByName("account")[0];
-			var password = document.getElementByName("password")[0];
-			var save = document.getElementByName("save")[0];
+			
+			// 获取对象
+			var account = document.getElementsByName("account")[0];
+			var password = document.getElementsByName("password")[0];
+			var save = document.getElementsByName("save")[0];
+
+			// 判断本地是否有缓存
 			if (localStorage.getItem("account") && localStorage.getItem("password")) {
 				account.value = localStorage.getItem("account");
 				password.value = localStorage.getItem("password");
 				save.checked = true;
 			}
 			save.onclick = function () {
-				alert(1);
+				// 存储信息
 				if (save.checked) {
 					localStorage.setItem("account",account.value);
 					localStorage.setItem("password",password.value);
 				}else{
+					// 删除信息
 					localStorage.removeItem("account");
 					localStorage.removeItem("password");
 				}
@@ -26,9 +32,11 @@
 		}
 	</script>
 </head>
+
 <body>
 	账号：<input type="text" name="account"><br>
 	密码： <input type="password" name="password"><br>
 	是否保存：<input type="checkbox" name="save">
 </body>
+
 </html>
