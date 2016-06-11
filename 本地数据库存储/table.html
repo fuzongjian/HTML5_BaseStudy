@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>数据库的应用</title>
+	<script>
+		window.onload = function () {
+
+			// 创建数据库
+			var dataBase = openDatabase("test","1.0","测试",1024*1024,function () {
+			});
+			dataBase.transaction(function (fx) {
+				fx.executeSql(
+					"create table if not exists testClass (name TEXT,age TEXT,sex TEXT,class TEXT)",
+					[],
+					function () {
+					alert("build table success");
+					},
+					function () {
+						alert("build table fail");
+					});
+
+			});
+
+
+
+			var table = document.getElementsByTagName("table")[0];
+			var tbody = table.getElementsByTagName("tbody")[0];
+			var add = document.getElementsByName("add")[0];
+			var del = document.getElementsByName("del")[0];
+			var save = document.getElementsByName("save")[0];
+
+			// 取出数据
+			dataBase.transaction(function (fx) {
+				fx.executeSql(
+					"select * from testClass",
+					[],
+					function (fx,result) {
+						for (var i = 0; i < result.rows.length; i++) {
+							var tr = document.createElement("tr");
+							var str = "";
+							str += "<td>"+result.rows.item(i)["name"]+"</td>" + "<td>"+result.rows.item(i)["age"]+"</td>" + "<td>"+result.rows.item(i)["sex"]+"</td>" + "<td>"+result.rows.item(i)["class"]+"</td>";
+							tr.innerHTML = str;
+							tbody.appendChild(tr);
+						}
+					},
+					function () {
+						alert(2);
+					}
+				)
+			})
+
+
+			// 添加一行
+			add.onclick = function () {
+				var tr = document.createElement("tr");
+				var str = "";
+				for (var i = 0; i < 4; i++) {
+					str += "<td>&nbsp;</td>";
+				 }
+				 tr.innerHTML = str;
+				 tbody.appendChild(tr);
+			}
+
+			// 删除一行
+			del.onclick = function () {
+				var trs = document.getElementsByTagName("tr");
+				tbody.removeChild(trs[trs.length-1]);
+			}
+
+			// 双击编辑表格
+			table.ondblclick = function (e) {
+				var ev = e||window.event;
+				var target = ev.target||ev.srcElement;
+				if (target.nodeName == "TD") {
+					var oldv = target.innerHTML;
+					target.innerHTML = "";
+					var input = document.createElement("input");
+					input.type = "text";
+					input.value = oldv;
+					input.size = 14;
+					target.appendChild(input);
+
+					// 保存显示新值
+					input.onblur = function () {
+						var newv = input.value;
+						target.removeChild(this);
+						target.innerHTML = newv;
+					}
+				}
+			}
+			// 保存数据
+			save.onclick = function () {
+				for (var i = 1; i < tbody.getElementsByTagName("tr").length; i++) {
+					var tds = tbody.getElementsByTagName("tr")[i].getElementsByTagName("td");
+					dataBase.transaction(function (fx) {
+						fx.executeSql(
+						 "insert into testClass (name,age,sex,class)values(?,?,?,?)",
+						 [tds[0].innerHTML,tds[1].innerHTML,tds[2].innerHTML,tds[3].innerHTML],
+						 function  () {
+						  alert("插入数据成功");
+						 },
+						 function () {
+						 	alert("插入数据失败");
+						 }
+						)
+				})	
+				}
+
+				
+			}
+		}
+	</script>
+</head>
+<body>
+	<table width="500" border="1" cellpadding="1">
+		<caption>学生花名册</caption>
+		<tr>
+			<th>姓名</th><th>年龄</th><th>性别</th><th>班级</th>
+		</tr>
+	</table>
+	<input type="button" name="add" value="添加一行">
+	<input type="button" name="del" value="删除一行">
+	<input type="button" name="save" value="点击保存">
+</body>
+</html>

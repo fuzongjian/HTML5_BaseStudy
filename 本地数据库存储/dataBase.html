@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>本地数据库存储</title>
+</head>
+<body>
+	<script type="text/javascript">
+	// 如果浏览器支持的话继续操作
+		if (window.openDatabase) {
+			// 创建数据库  如果数据库不存在则创建
+			var dataBase = openDatabase("student","1.0","学生表",1024*1024,function () {
+			});
+			dataBase.transaction(function (fx) {
+				// 创表
+				fx.executeSql(
+					"create table if not exists stu (id REAL UNIQUE, name TEXT)",
+					[],
+					function () {
+					alert("build table success");
+					},
+					function () {
+						alert("build table fail");
+					});
+
+				 // 插入数据
+				fx.executeSql(
+					"insert into stu (id ,name) values(?,?)",
+					[0,"张三"],
+					function () {
+					alert("insert success");
+					},
+					function () {
+						alert("insert fail");
+					});
+
+				// 更新数据
+				fx.executeSql(
+					"update stu set name = ? where id = ?",
+					["李四",0],
+					function () {
+					alert("update success");
+					},
+					function () {
+						alert("update fail");
+					});
+
+				// 查询数据
+				fx.executeSql(
+					"select * from stu",
+					[],
+					function (fx,result) {
+						for (var i = 0; i < result.rows.length; i++) {
+							alert(result.rows.item(i)["name"]);
+						}
+					},
+					function () {
+						alert("update fail");
+					});
+
+				// 删除数据
+				fx.executeSql(
+					"delete from stu where id = ?",
+					[0],
+					function () {
+						alert("delete success");
+					},
+					function () {
+						alert("delete fail");
+					});
+
+				// 删除表
+				fx.executeSql(
+					"drop table stu",
+					[],
+					function () {
+						alert("delete table success");
+					},
+					function () {
+						alert("delete table fail");
+					});
+				
+			});
+			
+		}
+	</script>
+	<div id="one"></div>
+</body>
+</html>
