@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		canvas{
+			 background: #ccc;;
+		}
+	</style>
+	<meta charset="utf-8">
+	<title>canvas与贝塞尔曲线</title>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+
+			drawClip();
+			// 裁切  只会显示裁切区域，其他地方不会显示
+			function drawClip() {
+				obj.rect(100,100,100,100);
+				obj.stroke();
+				obj.clip();
+				obj.fillRect(0,0,120,120);
+			}
+			// 绘制圆
+			function drawCircle() {
+				// 前两个参数是坐标原点 第三个参数是半径 第四、五个参数是角度 第六个顺逆时针
+				obj.arc(100,100,30,0,Math.PI/4,false);
+				obj.stroke();
+			}
+			// 绘制介于两条切线之间的弧或曲线
+			function drawCircleLine() {
+				obj.moveTo(100,100);
+				obj.lineTo(130,100);
+				// arcTo 两个点的弧度坐标 圆的半径
+				obj.arcTo(180,100,180,140,20);
+				obj.lineTo(180,180);
+				obj.stroke();
+			}
+			// 模拟贝塞尔曲线的实现
+			function customBeizer() {
+				canvas.onmousedown = function (e) {
+					var startx = e.layerX;
+					var starty = e.layerY;
+					
+					canvas.onmouseup = function (e) {
+						var endx = e.layerX;
+						var endy = e.layerY;
+						canvas.onmousemove = function (e) {
+							obj.clearRect(0,0,500,500);
+							var conx = e.layerX;
+							var cony = e.layerY;
+							obj.beginPath();
+							obj.moveTo(startx,starty);
+							obj.quadraticCurveTo(conx,cony,endx,endy);
+							obj.stroke();
+						}
+					}
+
+				}
+			}
+			// 二次贝塞尔曲线
+			function TwoBeizer() {
+				obj.moveTo(100,100);
+				// 第一个点是控制点  第二个点是终点
+				obj.quadraticCurveTo(250,250,400,100);
+				obj.stroke();
+			}
+			// 三次贝塞尔曲线
+			function ThreeBeizer() {
+				obj.moveTo(50,100);
+				// 前两个是控制点  最后一个点是终点
+				obj.bezierCurveTo(150,150,250,50,350,100);
+				obj.stroke();
+			}
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+</body>
+</html>

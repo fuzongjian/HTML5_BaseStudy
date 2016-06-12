@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>心跳</title>
+	<style>
+		canvas{
+			background:  #ccc;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas")
+			var obj = canvas.getContext("2d");
+
+			drawMouse();
+
+			// 随鼠标移动
+			function drawMouse() {
+				obj.lineWidth = 5;
+				obj.strokeStyle = "#ff0000";
+				obj.moveTo(250,300);
+				obj.lineTo(250,200);
+				obj.stroke();
+
+				canvas.onmousemove = function (e) {
+					var mx = e.layerX;
+					var my = e.layerY;
+					var startx = 250;
+					var starty = 300;
+					var angle = Math.atan2((my-starty),(mx-startx));
+					obj.clearRect(0,0,500,500);
+					obj.beginPath();
+					obj.moveTo(startx,starty);
+					obj.lineTo(startx+100*Math.cos(angle),starty+100*Math.sin(angle));
+					obj.stroke();
+				}
+			}
+
+			// 心跳
+			function drawHeart() {
+				obj.arc(200,200,50,0,2*Math.PI);
+				obj.stroke();
+				var angle = 0;
+				canvas.onclick = function (e) {
+					var mx = e.layerX;
+					var my = e.layerY;
+					// 判断点击的点是否在圆内
+					if (obj.isPointInPath(mx,my)) {
+						setInterval(function () {
+						// 清除上一次残留
+							obj.clearRect(0,0,500,500);
+							angle+=0.1;
+							obj.beginPath();
+							obj.arc(200,200,50+10*Math.sin(angle),0,2*Math.PI);
+							obj.stroke();
+						},50)
+					}
+				}
+			}
+			
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+</body>
+</html>

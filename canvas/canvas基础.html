@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>canvas基础</title>
+	<style>
+		canvas{
+			background: #ccc;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			// 获取画图环境，obj对象给我们封装了喝多的绘图方法和属性。
+			var obj = canvas.getContext("2d");
+			// 阴影的颜色
+			obj.shadowColor = "rgb(11,25,9)";
+			// 偏移量
+			obj.shadowOffsetX = 3;
+			obj.shadowOffseY = 3;
+			// 偏移模糊值
+			obj.shadowBlur = 3;
+			// 颜色线性渐变
+			// var colorline = obj.createLinearGradient(0,0,100,0);
+			// colorline.addColorStop(0,"red");
+			// colorline.addColorStop(0.5,"blue");
+			// colorline.addColorStop(1,"green");
+
+			// 放射性颜色渐变
+		    var colorline = obj.createRadialGradient(50,50,10,50,50,50);
+			colorline.addColorStop(0,"red");
+			colorline.addColorStop(0.5,"blue");
+			colorline.addColorStop(1,"green");
+			// obj.fillStyle = colorline;
+
+			// 指定方向上的平铺
+			var img = obj.createPattern(document.getElementById("img"),"repeat-x");
+			obj.fillStyle = img;
+
+			// 填充过的矩形
+			obj.fillRect(0,0,100,100);
+
+			obj.strokeStyle = "green";
+			// 有边框的矩形
+			obj.strokeRect(100,100,100,100);
+
+			
+		}
+	</script>
+</head>
+<body>
+	<!-- canvas画布坐标是一个二维坐标系，X轴向右为正，Y轴向下为正 -->
+	<canvas width="400" height="400" id="canvas">
+		
+	</canvas>
+	<img src="1.jpg" id="img">
+	<p>好好学习，天天向上。</p>
+
+</body>
+</html>

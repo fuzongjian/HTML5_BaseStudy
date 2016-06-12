@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		canvas{
+			background: #ccc;
+		}
+	</style>
+	<title>canvas路径与三角函数</title>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			// obj.strokeStyle = "red";
+			// obj.rect(0,0,100,100);
+			// obj.stroke();
+			// obj.fill();
+
+			// drawLine();
+			// drawBoard();
+			// drawRect(10,10,100,100);
+			// drawCircle(150,150,50);
+			linestyle();
+			// 线条样式
+			function linestyle() {
+				obj.moveTo(100,100);
+				obj.lineTo(200,200);
+				// 线条宽度
+				obj.lineWidth = 10;
+				// 线条端点的样式
+				obj.lineCap = "square";
+
+				// 线条连接处样式
+				obj.lineTo(300,100);
+				obj.lineJoin = "round";
+				obj.stroke();
+			}
+			// 画圆
+			function drawCircle(x,y,r) {
+				for (var i = 0; i < 360; i++) {
+					obj.lineTo(x+r*Math.cos(i*Math.PI/180),y+r*Math.sin(i*Math.PI/180));
+					obj.stroke();
+				}
+			}
+			// 画矩形封装
+			function drawRect(x,y,w,h) {
+				obj.moveTo(x,y);
+				obj.lineTo(x+w,y);
+				obj.lineTo(x+w,y+h);
+				obj.lineTo(x,y+h);
+				obj.closePath();
+				obj.stroke();	
+			}
+			// 画板功能的实现
+			function drawBoard() {
+				canvas.onmousedown = function (e) {
+					var mx = e.layerX;
+					var my = e.layerY;
+					obj.moveTo(mx,my);
+					canvas.onmousemove = function (e) {
+						var endx = e.layerX;
+						var endy = e.layerY;
+						obj.lineTo(endx,endy);
+						obj.stroke();
+					}
+					canvas.onmouseup = function () {
+						canvas.onmousemove = null;
+						canvas.onmouseup = null;
+					}
+
+				}
+			}
+			// 折线
+			function drawLine() {
+
+				obj.moveTo(0,0);
+				obj.lineTo(100,100);
+				obj.stroke();
+				// 开辟新的内存继续画图，下一次画图和上一次没有关系
+				obj.beginPath();
+				obj.lineTo(0,200);
+				obj.lineTo(300,300);
+				obj.lineTo(100,400);
+
+				// closePath具备让首尾相连的功能
+				obj.closePath();
+				obj.stroke();
+			}
+
+			
+			
+
+
+
+
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+</body>
+</html>
