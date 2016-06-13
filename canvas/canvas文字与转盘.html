@@ -40,6 +40,8 @@
 						step*=0.95;
 						angle+=step;
 						obj.clearRect(-200,-200,500,500);
+						
+						// 绘制箭头
 						obj.beginPath()
 						obj.lineWidth = 5;
 						obj.moveTo(135,0);
@@ -48,7 +50,7 @@
 						obj.lineWidth = 2;
 						obj.save();
 						obj.rotate(angle*num);
-						// 绘制箭头
+						
 
 						// 绘制扇形
 						for (var i = 1; i <= 8; i++) {

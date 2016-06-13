@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>opration合成</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			obj.fillStyle = "red";
+			obj.stokeStyle = "blue";
+			obj.save();
+			obj.fillRect(0,0,100,100);
+			obj.globalCompositeOperation ="destination-over";
+			obj.strokeRect(90,90,100,100);
+			obj.restore();
+
+			obj.fillRect(200,200,100,100);
+			obj.strokeRect(290,290,100,100);
+
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+</body>
+</html>

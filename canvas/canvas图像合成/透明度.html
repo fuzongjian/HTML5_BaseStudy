@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>透明度</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var vanvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			allfill();
+			// 全局填充
+			function allfill() {
+
+				obj.save();
+				obj.globalAlpha = 0.5;
+				obj.fillRect(0,0,100,100);
+				obj.fillRect(100,100,100,100);
+				obj.restore();
+
+				obj.fillRect(200,200,100,100);
+			}
+
+			// somefill();
+			// 局部填充
+			function somefill() {
+				obj.fillStyle ="rgba(255,0,0,0.5)";
+				obj.fillRect(0,0,100,100);
+
+				obj.fillStyle ="rgba(255,0,255,0.5)";
+				obj.fillRect(100,100,100,100);
+
+				obj.fillStyle ="rgba(255,0,0,1)";
+				obj.fillRect(200,200,100,100);
+			}
+
+
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"> </canvas>
+</body>
+</html>
