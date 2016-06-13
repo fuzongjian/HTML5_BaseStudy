@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<meta charset="utf-8">
+	<title>canvas矩阵转换</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			
+
+			// scaleMethod();
+
+			// translateMethod();
+			// clearCanvasMethod();
+			// rotateMethod();
+			transformMethod();
+			// 变换矩阵
+			function transformMethod() {
+				// 参数一 X轴缩放比例  二、三 X轴与Y轴的斜切
+				// 参数四 Y轴缩放比例	五六 X轴Y的位移
+
+				//----------------------------------- 
+				obj.translate(100,100);
+				// setTransform清除之前的变换，重新开始变化
+				obj.setTransform(1,10*Math.PI/180,10*Math.PI/180,1,100,100);
+				// ------------------------------------
+				
+				// obj.transform(1,10*Math.PI/180,10*Math.PI/180,1,100,100);
+				obj.strokeRect(50,50,100,100);
+			}
+			// 旋转  相对于原点来旋转
+			function rotateMethod() {
+				obj.rotate(10*Math.PI/180);
+				obj.translate(100,100);
+				obj.fillRect(0,0,100,100);
+			}
+			// 清除画布的问题
+			function clearCanvasMethod() {
+				obj.translate(100,100);
+				obj.fillRect(-50,-50,100,100);
+				obj.clearRect(-50,-50,500,500);
+			}
+			// 位移 save restore 消除变形记忆
+			function translateMethod() {
+				var num = 0;
+				setInterval(function () {
+					obj.clearRect(0,0,500,500);
+					num+=2;
+					obj.save();
+					// 参数 X Y轴上面的的位移
+					obj.translate(num,0);
+					obj.fillRect(0,0,100,100);
+					obj.restore();
+				},60)
+			}
+			// 缩放
+			function scaleMethod() {
+				// 参数  X、Y轴的缩放
+				// 缩放的基点画布的（0,0,）点
+				obj.strokeRect(0,0,200,200);
+
+				// save restore 函数保证作用范围内的有缩放效果
+				obj.save();
+				obj.scale(0.5,0.5);//后面的图形才会受到缩放的影响
+				obj.fillRect(0,0,100,100);
+				obj.restore();
+
+				obj.arc(200,200,100,0,2*Math.PI);
+				obj.fill();
+			}
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+</body>
+</html>

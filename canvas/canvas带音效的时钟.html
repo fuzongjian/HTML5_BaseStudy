@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>canvas带音效的时钟</title>
+	<style>
+		canvas{
+			background: #ccc;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var audio = document.getElementById("audio");
+			audio.ontimeupdate = function () {
+				if (audio.currentTime >= 0.2) {
+					audio.pause();
+				}
+			}
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			var originx = 250;
+			var originy = 250;
+			var radius = 100;
+
+			
+			setInterval(function () {
+				audio.currentTime=0;
+				audio.play();
+				obj.clearRect(0,0,500,500);
+				darwClock();
+				// 中心小圆
+				darwSmallCircle();
+				// 画针
+				var date = new Date();
+				var minute = date.getMinutes()*6-90;
+				var second = date.getSeconds()*6-90;
+				var hour = date.getHours()*30-90+date.getMinutes()*6/12;
+				drawPointer(55,hour,4,"#000");//时针
+				drawPointer(65,minute,3,"#888");//分针
+				drawPointer(75,second,2,"#ff0000");//秒针
+				
+				// 去掉阴影
+				obj.shadowColor = "#888";
+				obj.shadowOffsetX = 0;
+				obj.shadowOffsetY = 0;
+				obj.shadowBlur = 0;//模糊
+
+				// 画刻度的函数
+				drawMark();
+				
+
+			},1000)
+			
+			// 初始化表盘
+			function darwClock() {
+				// 阴影
+				obj.shadowColor = "#888";
+				obj.shadowOffsetX = 3;
+				obj.shadowOffsetY = 3;
+				obj.shadowBlur = 5;//模糊
+				// 渐变色
+				var colorObj = obj.createRadialGradient(originx,originy,1,originx,originy,100);
+				colorObj.addColorStop(0,"#efefef");
+				colorObj.addColorStop(0.5,"#cecece");
+				colorObj.addColorStop(1,"#ababab");
+				obj.fillStyle = colorObj;
+				obj.lineWidth = 5;
+				obj.strokeStyle = colorObj;
+				obj.beginPath();
+				obj.arc(originx,originy,radius,0,2*Math.PI);
+				obj.stroke();
+				obj.fill();
+			}
+			// 圆心小圆
+			function darwSmallCircle() {
+				obj.fillStyle = "#777";
+				obj.beginPath();
+				obj.arc(originx,originy,5,0,2*Math.PI);
+				obj.fill();
+			}
+			// 画针的函数
+			function drawPointer(radius,angle,width,color) {
+				obj.lineWidth = width;
+				obj.strokeStyle = color;
+				obj.beginPath();
+				obj.moveTo(originx,originy);
+				obj.lineTo(originx+radius*Math.cos(angle*Math.PI/180),originy+radius*Math.sin(angle*Math.PI/180));
+				obj.stroke();
+			}
+			// 画刻度
+			function drawMark() {
+					for (var i = 0; i < 60; i++) {
+						var angle = i*6*Math.PI/180;
+						var radius1 = radius-4;
+						var lw = 2;
+						if (i%5==0) {
+							radius1 = radius-7;
+							lw = 4;
+						}
+						obj.strokeStyle="#888";
+						obj.lineWidth = lw;
+						obj.beginPath();
+						obj.moveTo(originx+radius*Math.cos(angle),originy+radius*Math.sin(angle));
+						obj.lineTo(originx+(radius1)*Math.cos(angle),originy+(radius1)*Math.sin(angle));
+						obj.stroke();
+					}
+			}
+
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+	<audio src="1.wav" id="audio"></audio>
+</body>
+</html>
