@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>cancvas万花筒实现</title>
+	<style>
+		canvas{
+			background: #ccc;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			// sampleMethod();
+
+			perfectMethod();
+
+			// 万花筒效果
+			function perfectMethod() {
+				var arr = [];
+				setInterval(function () {
+					obj.clearRect(0,0,600,600);
+					for (var i = 0; i < arr.length; i++) {
+						obj.save();
+						obj.translate(300,300);
+						obj.scale(arr[i].scales,arr[i].scales);
+						obj.rotate(arr[i].angle*Math.PI/180);
+						obj.fillStyle = arr[i].color;
+						obj.fillRect(arr[i].num,arr[i].num,30,30);
+						obj.restore();
+					}
+				},60)
+				// 方块的变化
+				setInterval(function () {
+					for (var i = 0; i < arr.length; i++) {
+						if (arr[i].num<=0) {
+							arr.splice(i,1);
+							continue;
+						}
+						arr[i].angle+=2;
+						arr[i].num-=0.2;
+						arr[i].scales-=0.002;
+						if (arr[i].scales<=0.2) {
+							arr[i].scales = 0.2;
+						}
+					}
+				},60)
+				// 每隔一秒添加一个方块
+				setInterval(function  () {
+        			var rect={angle:0,num:150,scales:1,color:"rgb("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+")"};
+					arr.push(rect);
+	  			},1000)
+			}
+
+
+
+
+			// 旋转缩放小demo
+			function sampleMethod() {
+				// fillRect绘制的图形默认后面跟上beginPath清除了记录,获取不到点击点
+				obj.rect(50,50,100,100);
+				obj.fill();
+				var num = 0;
+				canvas.onclick = function (e) {
+					var mx = e.layerX;
+					var my = e.layerY;
+					if (obj.isPointInPath(mx,my)) {
+						setInterval(function () {
+							obj.clearRect(0,0,500,500);
+							num++;
+							obj.save();
+							obj.translate(100,100);
+							obj.scale(Math.sin(num*Math.PI/180),Math.sin(num*Math.PI/180));
+							obj.rotate(num*Math.PI/180);
+							obj.translate(-50,-50);
+							obj.beginPath();
+							obj.rect(0,0,100,100);
+							obj.fill();
+							obj.restore();
+						},60)
+					}
+				}
+
+			}
+			
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="600" height="600"></canvas>
+</body>
+</html>
