@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>一个星星</title>
+	<title>群星闪烁</title>
 	<style>
 		canvas{
 			background: #eee;
@@ -12,21 +12,32 @@
 	   	window.onload = function () {
 		   	var canvas = document.getElementById("canvas");
 			var obj = canvas.getContext("2d");
-	
-			var angle = 0;
+			var starArr = [];
+			// 创建星星数组
+			createStarArr();
 			setInterval(function () {
-				angle+=2;
 				obj.clearRect(0,0,500,500);
-				obj.save();
-				obj.beginPath();
-				obj.translate(100,100);
-				obj.rotate(angle*Math.PI/180);
-				obj.scale(Math.sin(angle*Math.PI/180),Math.sin(angle*Math.PI/180));
-				obj.globalAlpha=Math.abs(Math.sin(angle*Math.PI/180));
-				drawStar(0,0,100,50,5,"fill","blue")
-				obj.restore();
+				for (var i = 0; i < starArr.length; i++) {
+					starArr[i].angle+=starArr[i].changeAngle;
+					obj.save();
+					obj.beginPath();
+					obj.translate(starArr[i].x,starArr[i].y);
+					obj.rotate(starArr[i].angle*Math.PI/180);
+					obj.scale(Math.sin(starArr[i].angle*Math.PI/180),Math.sin(starArr[i].angle*Math.PI/180));
+					obj.globalAlpha=Math.abs(Math.sin(starArr[i].angle*Math.PI/180));
+					drawStar(0,0,starArr[i].radius1,starArr[i].radius2,starArr[i].num,"fill",starArr[i].color);
+					obj.restore();
+				}
 			},60)
 
+			function createStarArr() {
+				for (var i = 0; i < 30; i++) {
+					var starObj = {
+					  radius1:20+10*Math.random(),radius2:8+7*Math.random(),x:30+(canvas.width-60)*Math.random(),y:30+(canvas.height-60)*Math.random(),num:Math.ceil(4+4*Math.random()),color:"rgb("+parseInt(255*Math.random())+","+parseInt(255*Math.random())+","+parseInt(255*Math.random())+")",angle:360*Math.random(),changeAngle:-5+10*Math.random()
+						}
+						starArr.push(starObj);
+				}
+			}
 
 			function drawStar(x,y,radius1,radius2,num,drawType,color) {
 				var angle = 360/(num*2);
