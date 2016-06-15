@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>canvas拖拽进阶</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			var arr = [];
+			for (var i = 0; i < 5; i++) {
+				var arcObj = {
+					x:(i+1)*50,y:(i+1)*50,r:(i+1)*15,startA:0,lastA:2*Math.PI
+				}
+				arr.push(arcObj);
+			}
+			function drawarc() {
+				for (var i = 0; i < arr.length; i++) {
+					obj.beginPath();
+					obj.arc(arr[i].x,arr[i].y,arr[i].r,arr[i].startA,arr[i].lastA);
+					obj.fill();
+				}
+			}
+			drawarc();
+
+			canvas.onmousedown = function (e) {
+				var mx = e.layerX;
+				var my = e.layerY;
+				canvas.onmousemove = function (e) {
+					obj.clearRect(0,0,500,500);
+					var mx = e.layerX;
+					var my = e.layerY;
+					for (var i = 0; i < arr.length; i++) {
+						var event = new addEvent(obj,"arc",arr[i].x+","+arr[i].y+","+arr[i].r+","+arr[i].startA+","+arr[i].lastA,function () {
+							// 回调重绘
+							obj.beginPath();
+							obj.arc(mx,my,arr[i].r,arr[i].startA,arr[i].lastA);
+							obj.fill();
+							arr[i].x = mx;
+							arr[i].y = my;
+
+						});
+						event.add(mx,my);
+					}
+				}
+				canvas.onmouseup= function () {
+					canvas.onmousemove = null;
+					canvas.onmouseup = null;
+				}
+			}
+
+			function addEvent(cobj,type,data,callback) {
+				this.cobj = cobj;
+				this.type = type;
+				this.data = data;
+				this.callback = callback;
+				this.redraw();
+			}
+			addEvent.prototype={
+				redraw:function () {
+					if (this.type =="arc") {
+						this.cobj.beginPath();
+						var arr = this.data.split(",");
+						// this.cobj.arc(arc[0],arr[1],arr[2],arr[3],arr[4]);
+						this.cobj.arc(arr[0],arr[1],arr[2],arr[3],arr[4]);
+						this.cobj.fill();
+					}
+				},
+				add:function (mx,my) {
+					if (this.cobj.isPointInPath(mx,my)) {
+						this.callback();
+					}
+				}
+			}
+
+
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" height="500" width="500"></canvas>
+</body>
+</html>
