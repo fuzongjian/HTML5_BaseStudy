@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>3d小球效果</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			
+			obj.translate(250,250);
+			var arr = [];
+			for (var i = 0; i < 8; i++) {
+				var arcObj = {
+					r:15+5*Math.random(),x_3d:-200+i*30,y_3d:-100+200*Math.random(),z_3d:i*10,z_speed:10+10*Math.random()
+				}
+				arr.push(arcObj);
+			}
+
+
+			var focusLen=300;
+			setInterval(function () {
+				obj.clearRect(0,0,500,500);
+				var newarr = arr.sort(function (a,b) {
+					return a.z_3d<b.z_3d;
+				})
+				for (var i = 0; i < newarr.length; i++) {
+					arr[i].z_3d+=arr[i].z_speed;
+					if (arr[i].z_3d>600||arr[i].z_3d<=-50) {
+						arr[i].z_speed*=-1;
+					}
+
+					var scales = focusLen/(focusLen+arr[i].z_3d);
+					var x = arr[i].x_3d*scales;
+					var y = arr[i].y_3d*scales;
+
+					obj.save();
+					obj.translate(x,y);
+					obj.scale(scales,scales);
+
+					obj.beginPath();
+					var colorObj = obj.createRadialGradient(3,3,0,0,0,15);
+					colorObj.addColorStop(0,"#cbc0f3");
+					colorObj.addColorStop(1,"#06198b");
+					obj.fillStyle = colorObj;
+					obj.arc(0,0,15,0,2*Math.PI);
+					obj.fill();
+					obj.restore();
+				}
+			},50)
+
+
+
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" height="500" width="500"></canvas>
+</body>
+</html>
