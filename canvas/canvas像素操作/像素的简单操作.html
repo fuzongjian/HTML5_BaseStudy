@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="utf-8">
+	<title>简单的像素操作</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById('canvas');
+			var obj = canvas.getContext('2d');
+
+			// sampleOne();
+			sampleFour();
+			// 渐变
+			function sampleFour() {
+				var imgData = obj.createImageData(100,100);
+				obj.putImageData(Gradient(imgData,[255,0,0,255],[0,255,0,255]),0,0);
+			}
+			// 渐变方法
+			function Gradient(imgData,colorArr1,colorArr2) {
+				for (var i = 0; i < imgData.width*imgData.height; i++) {
+					imgData.data[i*4+0] = colorArr1[0]+(i/(imgData.width*imgData.height))*(colorArr2[0]-colorArr1[0]);
+					imgData.data[i*4+1] = colorArr1[1]+(i/(imgData.width*imgData.height))*(colorArr2[1]-colorArr1[1]);
+					imgData.data[i*4+2] = colorArr1[2]+(i/(imgData.width*imgData.height))*(colorArr2[2]-colorArr1[2]);
+					imgData.data[i*4+3] = colorArr1[3]+(i/(imgData.width*imgData.height))*(colorArr2[3]-colorArr1[3]);
+
+				}
+				return imgData;
+			}
+
+			function sampleThree() {
+				obj.fillRect(0,0,100,100);
+				var imgData = obj.getImageData(0,0,100,100);
+				var newImgData = obj.createImageData(imgData);
+				//  这种做法并不能获得指定区域的像素
+				obj.putImageData(newImgData,100,100);
+			}
+
+			function sampleTwo() {
+				// 创建新的、空白的imageData对象
+				var imgData = obj.createImageData(100,100);
+				for (var i = 0; i < imgData.height; i++) {
+					for (var j = 0; j < imgData.width; j++) {
+						imgData.data[i*(imgData.width*4)+j*4+0] = 255;
+						imgData.data[i*(imgData.width*4)+j*4+1] = 0;
+						imgData.data[i*(imgData.width*4)+j*4+2] = 0;
+						imgData.data[i*(imgData.width*4)+j*4+3] = 255;
+					}
+					obj.putImageData(imgData,0,0);
+				}
+			}
+			
+			function sampleOne() {
+				obj.fillRect(0,0,100,100);
+				//返回imageData，该对象为画布上指定的矩形复制像素数据
+				var imgData = obj.getImageData(0,0,100,100);
+				for (var i = 0; i < imgData.width*imgData.height; i++) {
+					imgData.data[i*4+0]=255;//R(0-255)
+					imgData.data[i*4+1]=0;//G(0-255)
+					imgData.data[i*4+2]=0;//B(0-255)
+					imgData.data[i*4+3]=255;//A(0-255)
+				}
+				// 把图像数据（从指定的imageData对象）返回画布上
+				obj.putImageData(imgData,100,100);
+			}
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+</body>
+</html>

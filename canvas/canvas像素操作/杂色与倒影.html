@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>杂色与倒影的研究学习</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById("canvas");
+			var obj = canvas.getContext("2d");
+			var img = document.getElementById("img");
+			
+			// obj.putImageData(zase(),200,240);
+
+			interted();
+
+			// 倒影实现
+			function interted() {
+				obj.drawImage(img,0,0,200,240);
+				var imgData = obj.getImageData(0,0,200,240);
+				var newimgData = obj.createImageData(200,240);
+				var num = 0;
+				setInterval(function () {
+					obj.putImageData(intertedMethod(imgData,newimgData,1,num),0,240);
+					num+=2;
+				},50)
+			}
+			// 倒影实现函数
+			function intertedMethod(imgData,newimgData,num,row) {
+				for (var i = 0; i < row; i++) {
+					for (var j = 0; j < imgData.width; j++) {
+						newimgData.data[i*(imgData.width*4)+j*4+0]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+0];
+						newimgData.data[i*(imgData.width*4)+j*4+1]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+1];
+						newimgData.data[i*(imgData.width*4)+j*4+2]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+2];
+						newimgData.data[i*(imgData.width*4)+j*4+3]=imgData.data[(imgData.height-i)*(imgData.width*4)+j*4+3]-i*num;
+					}
+				}
+				return newimgData;
+			}
+			// 杂色
+			function zase() {
+				obj.drawImage(img,0,0,200,240);
+				var imgData = obj.getImageData(0,0,200,240
+				var newArr = rand(imgData.width*imgData.height,2);
+				for (var i = 0; i < newArr.length; i++) {
+					imgData.data[4*newArr[i]+0] = (parseInt(255*Math.random())+imgData.data[4*newArr[i]+0])/2;
+					imgData.data[4*newArr[i]+1] = (parseInt(255*Math.random())+imgData.data[4*newArr[i]+1])/2;
+					imgData.data[4*newArr[i]+2] = (parseInt(255*Math.random())+imgData.data[4*newArr[i]+2])/2;
+					imgData.data[4*newArr[i]+3] = 255;
+				}
+				return imgData;
+			}
+			// 取出不相同随机数
+			function rand(sum,num) {
+				var arr = [];
+				for (var i = 0; i < sum; i++) {
+					arr.push(i);
+				}
+				var newArr = [];
+				for (var i = 0; i < sum/num; i++) {
+					newArr.push(arr.splice([Math.floor(arr.length*Math.random())],1));
+				}
+				return newArr;
+			}
+		}
+	</script>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+	<img src="1.jpg" id="img" hidden>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>像素操作进阶</title>
+	<style>
+		canvas{
+			background: #eee;
+		}
+	</style>
+	<script>
+		window.onload = function () {
+			var canvas = document.getElementById('canvas')
+			var obj = canvas.getContext("2d");
+			var img = document.getElementById('img');
+			obj.drawImage(img,0,0,200,240);
+			var imgData = obj.getImageData(0,0,200,240);
+			obj.putImageData(blur(imgData,10),200,240);
+
+			// 模糊效果
+			function blur(imgData,num) {
+				for (var j = 0; j < num; j++) {
+					for (var i = 0; i < imgData.width*imgData.height; i++) {
+					   imgData.data[i*4+0]=(imgData.data[(i-1)*4+0]+imgData.data[i*4+0]+imgData.data[(i+1)*4+0])/3
+					   imgData.data[i*4+1]=(imgData.data[(i-1)*4+1]+imgData.data[i*4+1]+imgData.data[(i+1)*4+1])/3
+					   imgData.data[i*4+2]=(imgData.data[(i-1)*4+2]+imgData.data[i*4+2]+imgData.data[(i+1)*4+2])/3
+					   imgData.data[i*4+3]=imgData.data[i*4+3];
+					}
+				}
+				return imgData;
+			}
+
+			// 门帘效果
+			function menl(imgData,num) {
+				for (var i = 0; i < imgData.width*imgData.height; i++) {
+					if (i%num==0) {
+						imgData.data[i*4+0] =0;
+						imgData.data[i*4+1] =0;
+						imgData.data[i*4+2] =0;
+						imgData.data[i*4+3] =0;
+					}
+				}
+				return imgData;
+			}
+			// 反相
+			function fanx(imgData) {
+				for (var i = 0; i < imgData.width*imgData.height; i++) {
+					imgData.data[i*4+0] = 255 - imgData.data[i*4+0];
+					imgData.data[i*4+1] = 255 - imgData.data[i*4+1];
+					imgData.data[i*4+2] = 255 - imgData.data[i*4+2];
+					imgData.data[i*4+3] = imgData.data[i*4+3];
+				}
+				return imgData;
+			}
+		}
+	</script>
+</head>
+<body>
+ 	<canvas id="canvas" width="500" height="500"></canvas>
+ 	<img src="1.jpg" id="img" hidden>
+</body>
+</html>
